@@ -14,7 +14,7 @@ const controller = {
 
 	// Detail - Detail from one product
 	detail: (req, res) => {
-		let id = req.params.id
+		let id = +req.params.id
 
 		res.render("detail", { producto: products, id })
 		// Do the magic
@@ -53,14 +53,17 @@ const controller = {
 	// Update - Form to edit
 	edit: (req, res) => {
 		// Do the magic
-		const id=req.params.id
-		res.render("product-edit-form",{producto:products,id})
+		const id=+req.params.id
+		const producto=products.find(function(elemento){
+			return elemento.id==id
+		})
+		res.render("product-edit-form",{producto,id})
 	},
 	// Update - Method to update
 	update: (req, res) => {
 		// Do the magic
 		
-		const id=req.params.id
+		const id= +req.params.id
 		const { name, price, discount, category, description, image } = req.body
 		let nuevo={
 			id,
@@ -96,13 +99,13 @@ const controller = {
 
 	 let json=JSON.stringify(productos2)
 	 fs.writeFileSync(productsFilePath,json,"utf-8")
-     res.redirect("/")
+     res.redirect("/products")
 		
 	},
 
 	// Delete - Delete one product from DB
 	destroy: (req, res) => {
-		let id=req.params.id
+		let id= +req.params.id
 		let filtro=products.filter(function (elemento){
 			return elemento.id!=id
 		})
@@ -110,7 +113,7 @@ const controller = {
 		let json=JSON.stringify(filtro)
 		fs.writeFileSync(productsFilePath,json,"utf-8")
 		// Do the magic
-		res.redirect("/")
+		res.redirect("/products")
 	}
 };
 
