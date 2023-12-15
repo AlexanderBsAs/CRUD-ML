@@ -7,36 +7,61 @@
 	<%- include('partials/headerNavbar') %>
 	<!-- /Header -->
 
-	<!-- product detail -->
-	<div class="container products-wrapper">
+	<!-- product detail -->	
+	<% producto.find((elemento)=>{ %>
+             <% 
+				if (elemento.id==id){%>
+			
+					<div class="container products-wrapper">
 		<div class="row">
 			<div class="col-12">
-				<h2 class="products-title">Detalle del producto: NOMBRE DEL PRODUCTO</h2>
+				<h2 class="products-title">Detalle del producto: <%= elemento.name %></h2>
 			</div>
 		</div>
 		<div class="product-detail">
+		
 			<div class="row">
 				<div class="col-12 col-lg-8">
-					<img src="/images/products/¿?" alt="product image" class="product-detail-img">
+					<img src="/images/products/<%=elemento.image%>" alt="product image" class="product-detail-img">
 					<p class="product-detail-description">
-						PRODUCT DESCRIPTION
+						<%= elemento.description%>
 					</p>
 				</div>
+				<% if(elemento.discount>0){ %>
 				<div class="col-12 col-lg-4">
 					<article class="product-detail-info">
-						<h2 class="product-detail-title">PRODUCT NAME</h2>
+						<h2 class="product-detail-title"><%=elemento.name%></h2>
 						
 							<p class="product-detail-price small">
-								<span>$PRICE</span>
-								/
-								<b>DISCOUNT% OFF</b>
+								<span>$ <%= elemento.price %></span>
+								/ 
+								<b><%= elemento.discount %>% OFF</b>
 							</p>
 							<p class="product-detail-price">
-								$FINAL PRICE
+								$<%=elemento.price -(elemento.price*elemento.discount/100)%>
+
+
+							 
 							</p>
 							<p class="product-detail-price">
-								$PRICE
+								$<%=elemento.price -(elemento.price*elemento.discount/100)%> PRICE
+							</p> <%}%>
+
+							<% if(elemento.discount<=0){ %>
+				<div class="col-12 col-lg-4">
+					<article class="product-detail-info">
+						<h2 class="product-detail-title"><%=elemento.name%></h2>
+						
+							
+							<p class="product-detail-price">
+								$<%=elemento.price%>
+
+
+							 
 							</p>
+							<p class="product-detail-price">
+								$<%=elemento.price%> PRICE
+							</p> <%}%>
 
 						<ul class="actions-list">
 							<li>
@@ -52,8 +77,8 @@
 						<a href="#" class="buy-now-button">COMPRAR AHORA</a>
 						<hr>
 
-						<a href="/products/edit/¿?" class="action-button edit">EDITAR PRODUCTO</a>
-						<form action="/products/delete/¿¿" method="POST" style="display: inline-flex">
+						<a href="/products/edit/<%=elemento.id%>" class="action-button edit">EDITAR PRODUCTO</a>
+						<form action="/products/delete/<%=elemento.id%>?_method=DELETE" method="POST" style="display: inline-flex">
 							<button type="submit" class="action-button delete">ELIMINAR</button>
 						</form>
 					</article>
@@ -61,6 +86,10 @@
 			</div>
 		</div>
 	</div>
+
+			<%} %>
+			<% }) %>
+	
 	<!-- /product detail -->
 
 	<!-- footer -->
