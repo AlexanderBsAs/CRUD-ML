@@ -72,7 +72,7 @@ const controller = {
 			discount,
 			category,
 			description,
-			image:"default-image.png"
+			image
 		}
 
 /* 
@@ -91,6 +91,7 @@ const controller = {
 		
     let productos2= products.map(function(elemento){
 		if(id==elemento.id){
+			nuevo.image=elemento.image
 		return nuevo
 			
 		} 
