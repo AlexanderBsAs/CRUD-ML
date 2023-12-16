@@ -11,10 +11,18 @@ const controller = {
 		// Do the magic
 		res.render("index",{producto: products})
 	},
-	search: (req, res) => {
-		// Do the magic
-	
-	},
+	search:(req,res)=> {
+		let ingreso=req.query.keywords
+		let array=[]
+		let metodo =products.forEach((elemento)=>{
+		if ( elemento.name.includes(ingreso))
+		{array.push(elemento)}
+		})
+	   if(metodo){
+		return metodo
+	   }
+		res.render("results", { ingreso, array})
+	}
 };
 
 module.exports = controller;

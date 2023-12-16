@@ -114,7 +114,8 @@ const controller = {
 		fs.writeFileSync(productsFilePath,json,"utf-8")
 		// Do the magic
 		res.redirect("/products")
-	}
+	},
+
 };
 
 module.exports = controller;
