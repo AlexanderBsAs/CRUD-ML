@@ -99,7 +99,8 @@ const controller = {
 
 	 let json=JSON.stringify(productos2)
 	 fs.writeFileSync(productsFilePath,json,"utf-8")
-     res.redirect("/products")
+     /* res.redirect("/products") */
+	 res.send("Producto editado")
 		
 	},
 
@@ -113,7 +114,8 @@ const controller = {
 		let json=JSON.stringify(filtro)
 		fs.writeFileSync(productsFilePath,json,"utf-8")
 		// Do the magic
-		res.redirect("/products")
+		/* res.redirect("/products") */
+		res.send("producto eliminado.")
 	},
 
 };
