@@ -57,6 +57,7 @@ const controller = {
 		const producto=products.find(function(elemento){
 			return elemento.id==id
 		})
+		console.log(producto)
 		res.render("product-edit-form",{producto,id})
 	},
 	// Update - Method to update
@@ -97,7 +98,7 @@ const controller = {
 		} 
 		return elemento
 	 })
-
+ console.log(productos2)
 	 let json=JSON.stringify(productos2)
 	 fs.writeFileSync(productsFilePath,json,"utf-8")
      /* res.redirect("/products") */
