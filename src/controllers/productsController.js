@@ -9,11 +9,15 @@ const toThousand = n => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 const controller = {
 	// Root - Show all products
 	index: (req, res) => {
+		const productsFilePath = path.join(__dirname, '../data/productsDataBase.json');
+const products = JSON.parse(fs.readFileSync(productsFilePath, 'utf-8'));
 		res.render("products", { producto: products })
 	},
 
 	// Detail - Detail from one product
 	detail: (req, res) => {
+		const productsFilePath = path.join(__dirname, '../data/productsDataBase.json');
+const products = JSON.parse(fs.readFileSync(productsFilePath, 'utf-8'));
 		let id = +req.params.id
 
 		res.render("detail", { producto: products, id })
@@ -22,6 +26,8 @@ const controller = {
 
 	// Create - Form to create
 	create: (req, res) => {
+		const productsFilePath = path.join(__dirname, '../data/productsDataBase.json');
+const products = JSON.parse(fs.readFileSync(productsFilePath, 'utf-8'));
 		// Do the magic
 
 		res.render("product-create-form")
@@ -29,17 +35,25 @@ const controller = {
 
 	// Create -  Method to store
 	store: (req, res) => {
+		const productsFilePath = path.join(__dirname, '../data/productsDataBase.json');
+const products = JSON.parse(fs.readFileSync(productsFilePath, 'utf-8'));
 		// Do the magic	
-		const id=products[products.length-1].id+1
+		try{
+const id=products[products.length-1].id+1
 		const { name, price, discount, category, description, image } = req.body
+		const file=req.file
+
+			if(!file){
+				throw new Error("debe elegir una imagen para el producto")
+			}
 		let nuevo={
-			id,
+			id:+id,
 			name,
-			price,
-			discount,
+			price:+price,
+			discount:+discount,
 			category,
 			description,
-			image: "default-image.png"
+			image: file?file.filename: "default-image.png"
 		}
 		products.push(nuevo)
         
@@ -48,10 +62,18 @@ const controller = {
 		fs.writeFileSync(productsFilePath,json)
 	/* 	res.send(products[products.length-1]) */
 	res.redirect("/products")
+
+		}
+		catch(error){
+			res.send("por favor suba una imagen del producto")
+		}
+		
 	},
 
 	// Update - Form to edit
 	edit: (req, res) => {
+		const productsFilePath = path.join(__dirname, '../data/productsDataBase.json');
+const products = JSON.parse(fs.readFileSync(productsFilePath, 'utf-8'));
 		// Do the magic
 		const id=+req.params.id
 		const producto=products.find(function(elemento){
@@ -62,6 +84,8 @@ const controller = {
 	},
 	// Update - Method to update
 	update: (req, res) => {
+		const productsFilePath = path.join(__dirname, '../data/productsDataBase.json');
+const products = JSON.parse(fs.readFileSync(productsFilePath, 'utf-8'));
 		// Do the magic
 		
 		const id= +req.params.id
@@ -102,12 +126,14 @@ const controller = {
 	 let json=JSON.stringify(productos2)
 	 fs.writeFileSync(productsFilePath,json,"utf-8")
      /* res.redirect("/products") */
-	 res.send("Producto editado")
+	 res.redirect("/products")
 		
 	},
 
 	// Delete - Delete one product from DB
 	destroy: (req, res) => {
+		const productsFilePath = path.join(__dirname, '../data/productsDataBase.json');
+const products = JSON.parse(fs.readFileSync(productsFilePath, 'utf-8'));
 		let id= +req.params.id
 		let filtro=products.filter(function (elemento){
 			return elemento.id!=id
@@ -117,7 +143,7 @@ const controller = {
 		fs.writeFileSync(productsFilePath,json,"utf-8")
 		// Do the magic
 		/* res.redirect("/products") */
-		res.send("producto eliminado.")
+		res.redirect("/products")
 	},
 
 };
