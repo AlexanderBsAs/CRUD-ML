@@ -87,9 +87,13 @@ const products = JSON.parse(fs.readFileSync(productsFilePath, 'utf-8'));
 		const productsFilePath = path.join(__dirname, '../data/productsDataBase.json');
 const products = JSON.parse(fs.readFileSync(productsFilePath, 'utf-8'));
 		// Do the magic
-		
+			const file=req.file
 		const id= +req.params.id
-		const { name, price, discount, category, description, image } = req.body
+		const { name, price, discount, category, description,image } = req.body
+	try{
+		if(!file){
+			throw new Error("No eligiste imagen")
+		}
 		let nuevo={
 			id,
 			name,
@@ -97,7 +101,7 @@ const products = JSON.parse(fs.readFileSync(productsFilePath, 'utf-8'));
 			discount,
 			category,
 			description,
-			image
+			image:file?file.filename: "default-image.png"
 		}
 
 /* 
@@ -116,7 +120,7 @@ const products = JSON.parse(fs.readFileSync(productsFilePath, 'utf-8'));
 		
     let productos2= products.map(function(elemento){
 		if(id==elemento.id){
-			nuevo.image=elemento.image
+			/* nuevo.image=elemento.image */
 		return nuevo
 			
 		} 
@@ -127,6 +131,11 @@ const products = JSON.parse(fs.readFileSync(productsFilePath, 'utf-8'));
 	 fs.writeFileSync(productsFilePath,json,"utf-8")
      /* res.redirect("/products") */
 	 res.redirect("/products")
+	}
+	catch(error){
+		res.send("Debes poner una imagen al producto")
+	}
+		
 		
 	},
 
