@@ -152,6 +152,7 @@ const products = JSON.parse(fs.readFileSync(productsFilePath, 'utf-8'));
         console.log(imagen) */
 		let json=JSON.stringify(filtro)
 		fs.writeFileSync(productsFilePath,json,"utf-8")
+		
 		// Do the magic
 		/* res.redirect("/products") */
 		
