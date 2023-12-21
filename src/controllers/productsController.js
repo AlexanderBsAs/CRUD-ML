@@ -144,14 +144,17 @@ const products = JSON.parse(fs.readFileSync(productsFilePath, 'utf-8'));
 		const productsFilePath = path.join(__dirname, '../data/productsDataBase.json');
 const products = JSON.parse(fs.readFileSync(productsFilePath, 'utf-8'));
 		let id= +req.params.id
+		let file=req.file
 		let filtro=products.filter(function (elemento){
 			return elemento.id!=id
 		})
-
+/* 		let imagen=require(path.join(__dirname,"../../public/images/products"))
+        console.log(imagen) */
 		let json=JSON.stringify(filtro)
 		fs.writeFileSync(productsFilePath,json,"utf-8")
 		// Do the magic
 		/* res.redirect("/products") */
+		
 		res.redirect("/products")
 	},
 

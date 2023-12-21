@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <!-- Include Head -->
-<%- include('partials/head', {title: 'Editando: ' + '¿?'}) %>
+<%- include('partials/head', {title: 'Editando: ' + `${producto.name}`}) %>
 <body>
 	<!-- Header -->
 	<%- include('partials/headerNavbar') %>
@@ -31,9 +31,9 @@
 					<div class="col-12 col-md-6">
 						<label for="category" class="form-label">Categoría:</label>
 						<select name="category" id="category" class="form-input">
-							<option value="">Elegí</option>
-							<option value="in-sale">En oferta</option>
-							<option value="visited" >Últimos agregados</option>
+							<option value=""<%= producto.category==""? "selected" : null  %>>Elegí</option>
+							<option value="in-sale"<%= producto.category=="in-sale"? "selected" : null  %>>En oferta</option>
+							<option value="visited"<%= producto.category=="visited"? "selected" : null  %> >Últimos agregados</option>
 						</select>
 					</div>
 					<div class="col-12">
