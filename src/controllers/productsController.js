@@ -48,11 +48,11 @@ const id=products[products.length-1].id+1
 			}
 		let nuevo={
 			id:+id,
-			name,
+			name:name.trim(),
 			price:+price,
 			discount:+discount,
-			category,
-			description,
+			category:category.trim(),
+			description:description.trim(),
 			image: file?file.filename: "default-image.png"
 		}
 		products.push(nuevo)
@@ -90,18 +90,18 @@ const products = JSON.parse(fs.readFileSync(productsFilePath, 'utf-8'));
 			const file=req.file
 		const id= +req.params.id
 		const { name, price, discount, category, description,image } = req.body
-	try{
+/* 	try{
 		if(!file){
 			throw new Error("No eligiste imagen")
-		}
+		} */
 		let nuevo={
 			id,
-			name,
+			name:name.trim(),
 			price,
 			discount,
-			category,
-			description,
-			image:file?file.filename: "default-image.png"
+			category:category.trim(),
+			description:description.trim(),
+			image:file?file.filename:image
 		}
 
 /* 
@@ -120,7 +120,9 @@ const products = JSON.parse(fs.readFileSync(productsFilePath, 'utf-8'));
 		
     let productos2= products.map(function(elemento){
 		if(id==elemento.id){
-			/* nuevo.image=elemento.image */
+		/* 	nuevo.image=elemento.image */
+				if(!file)
+			{ nuevo.image=elemento.image }
 		return nuevo
 			
 		} 
@@ -131,10 +133,10 @@ const products = JSON.parse(fs.readFileSync(productsFilePath, 'utf-8'));
 	 fs.writeFileSync(productsFilePath,json,"utf-8")
      /* res.redirect("/products") */
 	 res.redirect("/products")
-	}
+	/* }
 	catch(error){
 		res.send("Debes poner una imagen al producto")
-	}
+	} */
 		
 		
 	},
