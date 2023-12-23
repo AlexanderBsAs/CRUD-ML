@@ -147,9 +147,22 @@ const products = JSON.parse(fs.readFileSync(productsFilePath, 'utf-8'));
 const products = JSON.parse(fs.readFileSync(productsFilePath, 'utf-8'));
 		let id= +req.params.id
 		let file=req.file
+		let borrar=products.find((elemento)=>{
+			return elemento.id==id
+		})
 		let filtro=products.filter(function (elemento){
+		
 			return elemento.id!=id
 		})
+		if(borrar){
+			
+		fs.unlink("./public/images/products/"+borrar.image, (error)=>{ if(error)
+					throw error;
+					console.log("se elimino la imagen")
+				})
+			
+		}
+		
 /* 		let imagen=require(path.join(__dirname,"../../public/images/products"))
         console.log(imagen) */
 		let json=JSON.stringify(filtro)
